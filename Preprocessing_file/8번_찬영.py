@@ -23,7 +23,7 @@ genre_ohe = genres_ohe.groupby(axis=1, level=0).sum()
 # Genres 열 삭제해주고 genre ohe 형태로 열 생성
 df_final = pd.concat([df.drop(columns=["Genres"]), genre_ohe], axis=1)
 
-df_final.to_csv("8번_Preprocessed_dataset/netflix_titles_genres_ohe.csv", index=False)
+df_final.to_csv("Preprocessed_dataset/8번_netflix_titles_genres_ohe.csv", index=False)
 
 
 # ------------------------------------------------------------------------------------
