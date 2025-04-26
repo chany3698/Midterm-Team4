@@ -7,8 +7,8 @@ import seaborn as sns
 from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 
 # 1. CSV 파일 로딩 (EUC-KR 인코딩 적용)
-file_path = "서울시 지하철호선별 역별 승하차 인원 정보.csv"
-df = pd.read_csv(r'E:/Midterm-Team4/서울시 지하철호선별 역별 승하차 인원 정보.csv', encoding='euc-kr')
+file_path = "1번_seoul_subway.csv"
+df = pd.read_csv(r'E:/Midterm-Team4/Dataset/1번_seoul_subway.csv', encoding='euc-kr')
 
 # 2. 컬럼명 정리
 df.columns = df.columns.str.strip().str.replace(" ", "_").str.replace("(명)", "", regex=False)

@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # 1. 데이터 불러오기 (EUC-KR 인코딩으로 한글 깨짐 방지)
-df = pd.read_csv(r'E:/myproject/midtermtest/Team4-Midterm-Project-1/Data_preprocessing/국민건강보험공단_건강검진정보_2023.csv', encoding='euc-kr')
+df = pd.read_csv(r'E:/Midterm-Tea4/2번_public.health.CSV', encoding='euc-kr')
 
 # 2. 데이터 구조 확인
 print(df.shape)
