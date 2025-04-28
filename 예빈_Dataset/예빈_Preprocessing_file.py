@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from scipy import stats
 
 df = pd.read_csv("예빈_Dataset/4_예빈.py.csv")
@@ -15,16 +16,12 @@ df_no_duplicates = df.drop_duplicates(subset=['PatientId'])
 # 이상치 제거 (Z-score 이용)
 score_cols = ['Age']
 z_scores = stats.zscore(df[score_cols])
-
-# Z-score 절댓값이 3 미만인 행만 남김
 df = df[(np.abs(z_scores) < 3).all(axis=1)]
 
 
-# Label Encoding
-label_cols = ['Gender', 'Scholarship', 'Hipertension', 'Diabetes', 'Alcoholism', 'Handcap', 'SMS_received', 'No-show']
-for col in label_cols:
-    le = LabelEncoder()
-    df[col] = le.fit_transform(df[col])
+# Label Encoding 대신 수동 변환
+df['Gender'] = df['Gender'].map({'F': 0, 'M': 1})
+df['No-show'] = df['No-show'].map({'No': 0, 'Yes': 1})
 
     
 # One-Hot Encoding
@@ -36,4 +33,4 @@ df['AppointmentDay'] = pd.to_datetime(df['AppointmentDay'])
 df['ScheduledDay_weekday'] = df['ScheduledDay'].dt.dayofweek
 df['AppointmentDay_weekday'] = df['AppointmentDay'].dt.dayofweek
 
-df_encoded.to_csv("예빈_Preprocessed_dataset/4번_예빈.py.csv", index=False)
+df_encoded.to_csv("예빈_Dataset/4번_예빈.py.csv", index=False)
