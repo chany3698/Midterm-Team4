@@ -45,7 +45,7 @@ df.drop_duplicates(inplace=True)
 
 df['income_level'] = df['income'].apply(lambda x: '$50,000 미만' if x == '<=50K' else '$50,000 이상')                                         #파생변수 생성
 
-condition2 = (df['income_level'] >= (Q1 - 1.5 * IQR)) & (df['income_level'] <= (Q3 + 1.5 * IQR))              #하위 및 상위 25%를 제외한 50%만 인정, 그 이외는 이상값으로 처리
+condition2 = (df['income_level']=="$50,000 이상")              #하위 및 상위 25%를 제외한 50%만 인정, 그 이외는 이상값으로 처리
 df = df[condition2]
 
 print(df.isnull().sum())                                                       #결측치 확인
