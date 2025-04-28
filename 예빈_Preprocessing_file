@@ -1,0 +1,39 @@
+import pandas as pd
+import numpy as np
+from scipy import stats
+
+df = pd.read_csv("예빈_Dataset/4_예빈.csv")
+
+missing_values = df.isnull().sum()
+missing_values = missing_values[missing_values > 0]
+
+
+print(missing_values)
+
+
+df_no_duplicates = df.drop_duplicates(subset=['PatientId'])
+
+score_cols = ['Age']
+z_scores = stats.zscore(df[score_cols])
+df = df[(np.abs(z_scores) < 3).all(axis=1)] 
+
+
+
+df['Gender'] = df['Gender'].map({'F': 0, 'M': 1})
+df['No-show'] = df['No-show'].map({'No': 0, 'Yes': 1})
+
+columns_to_check = ['Scholarship', 'Hipertension', 'Diabetes', 'Alcoholism', 'Handcap', 'SMS_received']
+df[columns_to_check] = df[columns_to_check].astype(int)
+
+    
+
+df_encoded = pd.get_dummies(df, columns=['Neighbourhood'])
+
+
+df['ScheduledDay'] = pd.to_datetime(df['ScheduledDay'])
+df['AppointmentDay'] = pd.to_datetime(df['AppointmentDay'])
+df['ScheduledDay_weekday'] = df['ScheduledDay'].dt.dayofweek
+df['AppointmentDay_weekday'] = df['AppointmentDay'].dt.dayofweek
+
+df_encoded.to_csv("예빈_Dataset/예빈_Preprocessed_dataset/4번_예빈.csv", index=False)
+
