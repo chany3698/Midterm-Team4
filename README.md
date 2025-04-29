@@ -1,5 +1,42 @@
 # Midterm-Team4
 
+# 4번 `4_예빈.py`
+**- 병원 예약 데이터(No-show dataset) 전처리 파이프라인**
+
+환자 예약 데이터(`4_MED_NS.csv`)를 기반으로 결측치 처리, 중복 제거, 이상치 제거, 인코딩 및 날짜 특징 생성 과정을 수행하여 모델 학습용 csv 파일로 저장.
+
+---
+
+## 1. 입력 데이터
+
+|파일|
+|------|
+|`예빈_Dataset/4_MED_NS.csv`|
+
+### 주요 컬럼
+
+|컬럼명|설명|
+|--------|-----|
+|`Gender`|성별(F,M)|
+|ScheduleDay`.`AppointmentDay`|예약일, 진료일|
+|`Scholarship`,`Hipertension`,`Diabetes`,`Alcoholism`,`Handcap`,`SMS_received`|건강 관련 특성(0/1)|
+|`Neighbourhood`| 병원 위치 |
+|`No-show`| 예약 불참 여부(Yes/No) |
+
+---
+
+## 2. 전처리 단계
+
+| 단계 | 코드라인 | 설명 |
+|------|----------|------|
+| **1) 결측치 확인** | `missing_values = df.isnull().sum()` | 결측치 존재 여부 파악 |
+| **2) 중복 제거** | `df_no_duplicates = df.drop_duplicates(subset=['PatientId'])` | `PatientId` 기준 중복 제거 |
+| **3) 이상치 제거** | `Z-score` 활용 (`Age` 컬럼 기준) | `|Z| ≥ 3` 이상치 행 삭제 |
+| **4) 이진 인코딩** | `Gender`, `No-show` 열 | F→0, M→1 / No→0, Yes→1로 변환 |
+| **5) 범주 인코딩** | `Neighbourhood` 열 | `pandas.get_dummies()`로 원핫 인코딩 |
+| **6) 날짜 특징 추가** | `ScheduledDay_weekday`, `AppointmentDay_weekday` 생성 | 요일(0=월~6=일) 추출 |
+
+
 # 5번 `5_real_value.py`  
 **— FIFA 선수의 *Expected Real Value* (ERV) 산출 파이프라인**
 
