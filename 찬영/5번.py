@@ -2,17 +2,18 @@ import pandas as pd
 
 df = pd.read_csv('csvfile/5_SOCCER.csv')
 df.drop(columns=[
-    'player_url', 'long_name', 'league_name', 'player_tags'
+    'player_url', 'long_name', 'league_name', 'player_tags' # 필요 없는 열 제거
 ], inplace=True)
 
-base_year  = 2021
-w_contract = 1.0
+base_year  = 2021 # 기준연도
+w_contract = 1.0 # 가중치
 w_age      = 1.0
 w_physic   = 1.2
 w_pace     = 1.0
 w_shooting = 1.0
 w_stamina  = 0.8
 
+# 기대 가치 계산
 df['remaining_contract_years'] = df['contract_valid_until'] - base_year
 df['age_factor'] = df['age'].max() - df['age']
 
@@ -29,6 +30,7 @@ df['real_value_expectation'] = df['real_value_base'] * df['foot_bonus']
 
 df = df[df['real_value_expectation'].notna()]
 
+# 순위 산출 & 저장
 df['value_rank'] = (
     df['real_value_expectation']
       .rank(method='dense', ascending=False)
