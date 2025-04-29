@@ -1,9 +1,33 @@
 # Midterm-Team4
 
-# 2번 `Credit Card Default Dataset`  
-**— 신용카드 고객의 연체 가능성을 사전에 예측하여 위험 관리를 강화**
+#1번
 
-신용카드 고객의 정보(`2_Card.csv`)를 불러와 범주형 변수는 이진화와 매핑을 통해 해석 가능하도록 변환함
+## 1. 입력 데이터
+
+| 파일                | 설명                                                    |
+|---------------------|---------------------------------------------------------|
+| "1_adults.csv" | 원본을 과제용 형식으로 제공한 CSV |
+
+### 주요 컬럼
+
+**수치형** : 'age', 'fnlwgt', 'education.num', 'capital.gain', 'capital.loss', 'hours.per.week'  
+**범주형** : `sex`
+**타깃**     : '>50K' ("$50,000 이상")
+
+---
+
+## 2. 전처리·파이프라인 단계
+
+| 단계 | 설명 | 코드 라인 |
+|------|------|-----------|
+| **1) 결측치 정규화** |df[['age']] = scaler.fit_transform(df[['age']]) |
+| **2) 결측치 처리** | 'ERROR', 'UNKNOWN', 'missing', 'Missing', 'N/A', 'na', 'NaN', "?" -> df.replace(missing_like, pd.NA, inplace=True) |
+| **3) 성별 인코딩** | df['sex'] = le.fit_transform(df['sex']) |  |
+| **4) 하위 및 상위 25% 이상치 처리** | condition = (df['age'] >= (Q1 - 1.5 * IQR)) & (df['age'] <= (Q3 + 1.5 * IQR)) |
+| **5) 중복값 제거** | df.drop_duplicates(inplace=True) |
+| **6) 파생 변수 생성** | df['income_level'] = df['income'].apply(lambda x: '$50,000 미만' if x == '<=50K' else '$50,000 이상') |
+
+
 ---
 
 ## 1. 입력 데이터
